@@ -8,6 +8,7 @@ import com.websummoner.websummoner.misc.Page;
 import com.websummoner.websummoner.misc.TestBase;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -24,9 +25,11 @@ public class TestWindowCommands extends TestBase {
         waitUntilElementIsPresent(By.cssSelector("#test-id"));
     }
 
+    /** WebKit ends the session on close(), so nothing can be asserted afterwards. */
     @Test
     @DisplayName("Closes a browser window")
     public void testWindowCloseIsSupported() throws Exception {
+        Assumptions.assumeFalse("safari".equals(browserName()), "WebKitWebDriver ends the session on close()");
         try {
             WebDriver driver = getDriver();
             // Count the change rather than assume the session starts with one
