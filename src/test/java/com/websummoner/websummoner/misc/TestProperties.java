@@ -13,7 +13,7 @@ interface TestProperties {
 
     // Hosted copy of the pages/ directory from this repository.
     static String getBaseUrl() {
-        return prop("pages.base.url", "https://websummoner.github.io/websummoner-container-tests/pages");
+        return prop("pages.base.url", "https://websummoner.riadvice.com/websummoner-container-tests/pages");
     }
 
     static String getConnectionUrl() {

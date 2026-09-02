@@ -31,7 +31,7 @@ All are passed as `-D<name>=<value>`; the defaults match a local grid.
 | `grid.connection.url` | `http://localhost:4444/wd/hub` | Grid endpoint the tests connect to |
 | `grid.browser.name` | `chrome` | Browser to request (`chrome`, `firefox`, `opera`, `yandex`, …) |
 | `grid.browser.version` | `152.0` | Browser version capability |
-| `pages.base.url` | `https://websummoner.github.io/websummoner-container-tests/pages` | Base URL for the HTML test fixtures in `pages/` |
+| `pages.base.url` | `https://websummoner.riadvice.com/websummoner-container-tests/pages` | Base URL for the HTML test fixtures in `pages/` |
 
 ## Build checks without a grid
 
