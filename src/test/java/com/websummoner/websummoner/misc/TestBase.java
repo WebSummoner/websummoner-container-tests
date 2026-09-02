@@ -2,8 +2,11 @@ package com.websummoner.websummoner.misc;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.function.Function;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
@@ -73,13 +76,24 @@ public abstract class TestBase {
         return TestProperties.getBrowserName();
     }
 
+    /** An address a browser container can reach back on: a host name may not resolve there. */
     protected String getLocalHost() {
         try {
-            if (System.getProperty("os.name").startsWith("Mac")) {
-                return InetAddress.getLocalHost().getHostAddress();
-            } else {
-                return InetAddress.getLocalHost().getHostName();
+            InetAddress local = InetAddress.getLocalHost();
+            if (!local.isLoopbackAddress() && local instanceof Inet4Address) {
+                return local.getHostAddress();
             }
+            for (NetworkInterface nic : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+                if (!nic.isUp() || nic.isLoopback()) {
+                    continue;
+                }
+                for (InetAddress address : Collections.list(nic.getInetAddresses())) {
+                    if (address instanceof Inet4Address && !address.isLoopbackAddress()) {
+                        return address.getHostAddress();
+                    }
+                }
+            }
+            return local.getHostAddress();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
