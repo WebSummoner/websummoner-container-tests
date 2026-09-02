@@ -55,6 +55,18 @@ Selenium integration tests (`Test*`). This is what CI runs on every pull request
 - Unit tests live alongside the code they cover and are named `*Test`; the
   browser integration tests are named `Test*`.
 
+### What the suite contains
+
+| | Naming | Count | Needs a grid |
+| --- | --- | --- | --- |
+| Browser integration tests | `Test*.java`, 12 classes | **24** | yes |
+| Unit tests | `*Test.java` | **9** | no |
+| Total | | 33 | |
+
+A per-browser run reports **33** because the unit tests execute alongside the
+browser ones. The number that describes browser coverage is **24**; quote that
+one, and keep this table right when you add a test.
+
 ## License
 
 Apache License 2.0 — see [LICENSE](LICENSE).
