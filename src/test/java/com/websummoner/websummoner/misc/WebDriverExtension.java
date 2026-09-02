@@ -17,6 +17,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.opentest4j.TestAbortedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +63,8 @@ public class WebDriverExtension implements BeforeEachCallback, AfterEachCallback
 
     @Override
     public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
-        if (driver != null) {
+        // A failed assumption lands here too, and a skip is not a failure.
+        if (driver != null && !(throwable instanceof TestAbortedException)) {
             takeScreenshot(driver);
         }
         throw throwable;

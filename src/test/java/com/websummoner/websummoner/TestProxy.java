@@ -14,7 +14,6 @@ import de.sstoehr.harreader.model.HarEntry;
 import java.util.List;
 import java.util.function.Function;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +36,7 @@ public class TestProxy extends TestBase {
         }
     }
 
+    // newHar() replaces the last one, so background traffic never hits a null HAR.
     @BeforeEach
     public void startHar() {
         if (proxy.isStarted()) {
@@ -50,13 +50,6 @@ public class TestProxy extends TestBase {
         openPage(Page.FIRST);
         List<HarEntry> proxyLogEntries = proxy.getHar().getLog().getEntries();
         assertThat(proxyLogEntries, is(not(empty())));
-    }
-
-    @AfterEach
-    public void clearHar() {
-        if (proxy.isStarted()) {
-            proxy.endHar();
-        }
     }
 
     @AfterAll
