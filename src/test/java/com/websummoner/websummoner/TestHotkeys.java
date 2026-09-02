@@ -1,28 +1,31 @@
-package com.aerokube.selenoid;
+package com.websummoner.websummoner;
 
-import com.aerokube.selenoid.misc.Page;
-import com.aerokube.selenoid.misc.TestBase;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+import com.websummoner.websummoner.misc.Page;
+import com.websummoner.websummoner.misc.TestBase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import ru.yandex.qatools.allure.annotations.Features;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-
+@Tag("keyboard")
+@DisplayName("Keyboard input")
 public class TestHotkeys extends TestBase {
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         openPage(Page.HOTKEYS);
         waitUntilElementIsPresent(By.cssSelector("#test-id"));
     }
 
-    @Features("Pressing keys on the keyboard")
     @Test
+    @DisplayName("Sends a key chord to the focused element")
     public void testHotkeys() {
         WebDriver driver = getDriver();
         String someKeys = Keys.chord(Keys.CONTROL, "c");
@@ -31,5 +34,4 @@ public class TestHotkeys extends TestBase {
         driver.findElement(By.tagName("html")).sendKeys(someKeys);
         assertThat(divTag.getText(), equalTo("new"));
     }
-
 }

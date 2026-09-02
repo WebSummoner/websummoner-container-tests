@@ -1,14 +1,14 @@
-package com.aerokube.selenoid.misc;
+package com.websummoner.websummoner.misc;
 
 public enum Page {
-    
     FIRST("first.html"),
     SECOND("second.html"),
     HOTKEYS("hotkeys.html"),
     ALERT("alert.html"),
     FRAMES("frames.html"),
-    DRAG("drag.html");
-    
+    DRAG("drag.html"),
+    UPLOAD("upload.html");
+
     private final String name;
 
     Page(String name) {
@@ -19,4 +19,3 @@ public enum Page {
         return name;
     }
 }
-

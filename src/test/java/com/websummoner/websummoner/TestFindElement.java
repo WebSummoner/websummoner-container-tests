@@ -1,32 +1,33 @@
-package com.aerokube.selenoid;
+package com.websummoner.websummoner;
 
-import com.aerokube.selenoid.misc.Page;
-import com.aerokube.selenoid.misc.TestBase;
-import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import ru.yandex.qatools.allure.annotations.Features;
-
-import java.util.List;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
 
-@Features("Finding element")
+import com.websummoner.websummoner.misc.Page;
+import com.websummoner.websummoner.misc.TestBase;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+@Tag("locators")
+@DisplayName("Element locators")
 public class TestFindElement extends TestBase {
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         openPage(Page.FIRST);
         waitUntilElementIsPresent(By.cssSelector("#test-id"));
     }
 
-    @Features("Finding element by CSS selector")
     @Test
+    @DisplayName("Finds an element by CSS selector")
     public void testFindByCSSSelector() throws Exception {
         WebDriver driver = getDriver();
         List<WebElement> elementsByCSSSelector = driver.findElements(By.cssSelector("div#test-id"));
@@ -35,8 +36,8 @@ public class TestFindElement extends TestBase {
         assertThat(elementsByCSSSelector.get(0).getText(), equalTo("foo"));
     }
 
-    @Features("Finding element by ID")
     @Test
+    @DisplayName("Finds an element by id")
     public void testFindById() throws Exception {
         WebDriver driver = getDriver();
         List<WebElement> elementsById = driver.findElements(By.cssSelector("#test-id"));
@@ -45,8 +46,8 @@ public class TestFindElement extends TestBase {
         assertThat(elementsById.get(0).getText(), equalTo("foo"));
     }
 
-    @Features("Finding element by class name")
     @Test
+    @DisplayName("Finds an element by class name")
     public void testFindByClass() throws Exception {
         WebDriver driver = getDriver();
         List<WebElement> elementsByClass = driver.findElements(By.className("test-class"));
@@ -55,14 +56,14 @@ public class TestFindElement extends TestBase {
         assertThat(elementsByClass.get(0).getText(), equalTo("bar"));
     }
 
-    @Features("Finding element by XPath expression")
     @Test
+    @DisplayName("Finds an element by XPath")
     public void testFindByXPath() throws Exception {
         WebDriver driver = getDriver();
-        List<WebElement> elementsByXPath = driver.findElements(By.xpath("/html/body/span[contains(@class, 'test-class')]"));
+        List<WebElement> elementsByXPath =
+                driver.findElements(By.xpath("/html/body/span[contains(@class, 'test-class')]"));
         assertThat(elementsByXPath, hasSize(1));
         assertThat(elementsByXPath.get(0).getTagName(), equalToIgnoringCase("span"));
         assertThat(elementsByXPath.get(0).getText(), equalTo("bar"));
     }
-
 }

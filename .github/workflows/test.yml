@@ -1,0 +1,25 @@
+name: test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      # Compiles with Error Prone, checks Palantir formatting (Spotless) and
+      # runs the grid-free unit tests. The Selenium integration tests (Test*)
+      # need a live grid and run elsewhere, so they are excluded here.
+      - name: Verify
+        run: mvn -B -ntp verify -Dtest='*Test'

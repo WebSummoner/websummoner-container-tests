@@ -1,23 +1,25 @@
-package com.aerokube.selenoid;
+package com.websummoner.websummoner;
 
-import com.aerokube.selenoid.misc.Page;
-import com.aerokube.selenoid.misc.TestBase;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+import com.websummoner.websummoner.misc.Page;
+import com.websummoner.websummoner.misc.TestBase;
+import java.time.Duration;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import ru.yandex.qatools.allure.annotations.Features;
 
-import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
-
+@Tag("javascript")
+@DisplayName("JavaScript execution")
 public class TestEvaluateJavascript extends TestBase {
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         openPage(Page.FIRST);
         waitUntilElementIsPresent(By.cssSelector("#test-id"));
@@ -25,8 +27,8 @@ public class TestEvaluateJavascript extends TestBase {
         assertThat("Javascript execution is not supported", driver, is(instanceOf(JavascriptExecutor.class)));
     }
 
-    @Features("Synchronous Javascript evaluation")
     @Test
+    @DisplayName("Executes a synchronous script and returns its value")
     public void testEvaluateJavascript() throws Exception {
         try {
             WebDriver driver = getDriver();
@@ -43,8 +45,8 @@ public class TestEvaluateJavascript extends TestBase {
         }
     }
 
-    @Features("Asynchronous Javascript evaluation")
     @Test
+    @DisplayName("Executes an asynchronous script and awaits its callback")
     public void testEvaluateJavascriptAsync() throws Exception {
         try {
             WebDriver driver = getDriver();
@@ -53,7 +55,7 @@ public class TestEvaluateJavascript extends TestBase {
             assertThat(element.getText(), equalTo("foo"));
 
             JavascriptExecutor javaScriptExecutor = (JavascriptExecutor) driver;
-            driver.manage().timeouts().setScriptTimeout(1000, TimeUnit.MILLISECONDS);
+            driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(1));
             String result = String.valueOf(javaScriptExecutor.executeAsyncScript(getAsyncScript()));
             assertThat(element.getText(), equalTo("baz"));
             assertThat(result, equalTo("works"));
@@ -62,8 +64,8 @@ public class TestEvaluateJavascript extends TestBase {
         }
     }
 
-    @Features("Window scrolling")
     @Test
+    @DisplayName("Scrolls the page from injected JavaScript")
     public void testScroll() throws Exception {
         try {
             WebDriver driver = getDriver();
@@ -79,9 +81,7 @@ public class TestEvaluateJavascript extends TestBase {
     }
 
     private String getAsyncScript() {
-        return "var callback = arguments[arguments.length - 1];" +
-                " var div = document.getElementById('test-id');" +
-                " div.textContent = 'baz'; callback('works');";
+        return "var callback = arguments[arguments.length - 1];" + " var div = document.getElementById('test-id');"
+                + " div.textContent = 'baz'; callback('works');";
     }
-
 }

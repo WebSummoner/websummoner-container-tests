@@ -1,28 +1,31 @@
-package com.aerokube.selenoid;
+package com.websummoner.websummoner;
 
-import com.aerokube.selenoid.misc.Page;
-import com.aerokube.selenoid.misc.TestBase;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+import com.websummoner.websummoner.misc.Page;
+import com.websummoner.websummoner.misc.TestBase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import ru.yandex.qatools.allure.annotations.Features;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-
+@Tag("actions")
+@DisplayName("Drag and drop")
 public class TestDrag extends TestBase {
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         openPage(Page.DRAG);
         waitUntilElementIsPresent(By.cssSelector("#custom-handle"));
     }
 
-    @Features("Drag functionality")
     @Test
+    @DisplayName("Drags an element with the W3C Actions API")
     public void testDrag() throws Exception {
         try {
             WebDriver driver = getDriver();
@@ -30,11 +33,7 @@ public class TestDrag extends TestBase {
             assertThat(button.getText(), equalTo("10"));
 
             Actions drag = new Actions(driver);
-            drag
-                    .clickAndHold(button)
-                    .moveByOffset(100, 0)
-                    .build()
-            .perform();
+            drag.clickAndHold(button).moveByOffset(100, 0).build().perform();
 
             assertThat(button.getText(), equalTo("20"));
         } catch (Exception e) {

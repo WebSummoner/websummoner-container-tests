@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>File upload</title>
+</head>
+<body>
+<input type="file" id="file-input"
+       onchange="document.getElementById('file-name').textContent = this.files[0].name">
+<div id="file-name"></div>
+</body>
+</html>

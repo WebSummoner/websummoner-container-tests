@@ -1,21 +1,24 @@
-package com.aerokube.selenoid;
+package com.websummoner.websummoner;
 
-import com.aerokube.selenoid.misc.Page;
-import com.aerokube.selenoid.misc.TestBase;
-import org.junit.Before;
-import org.junit.Test;
+import com.websummoner.websummoner.misc.Page;
+import com.websummoner.websummoner.misc.TestBase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import ru.yandex.qatools.allure.annotations.Features;
 
+@Tag("alerts")
+@DisplayName("Alerts")
 public class TestAlert extends TestBase {
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         openPage(Page.ALERT);
     }
 
-    @Features("Capability to close alerts")
     @Test
+    @DisplayName("Accepts and dismisses a JavaScript alert")
     public void testAlertClose() throws Exception {
         try {
             WebDriver driver = getDriver();
@@ -24,6 +27,4 @@ public class TestAlert extends TestBase {
             fail("Closing alerts is not supported", e);
         }
     }
-
-
 }
