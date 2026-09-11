@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
 
 /**
  * Unit tests for the browser-capability routing — the one piece of real logic
@@ -53,6 +54,12 @@ class WebDriverExtensionTest {
     void braveRoutesThroughChromeOptions() {
         System.setProperty("grid.browser.name", "brave");
         assertThat(extension.getCapabilities(), instanceOf(ChromeOptions.class));
+    }
+
+    @Test
+    void edgeRoutesThroughEdgeOptions() {
+        System.setProperty("grid.browser.name", "MicrosoftEdge");
+        assertThat(extension.getCapabilities(), instanceOf(EdgeOptions.class));
     }
 
     @Test

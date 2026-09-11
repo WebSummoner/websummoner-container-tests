@@ -16,6 +16,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.opentest4j.TestAbortedException;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ public class WebDriverExtension implements BeforeEachCallback, AfterEachCallback
     private static final String OPERA = "opera";
     private static final String BRAVE = "brave";
     private static final String SAFARI = "safari";
+    private static final String EDGE = "MicrosoftEdge";
 
     private WebDriver driver;
 
@@ -119,6 +121,13 @@ public class WebDriverExtension implements BeforeEachCallback, AfterEachCallback
         switch (TestProperties.getBrowserName()) {
             case CHROME -> {
                 ChromeOptions options = new ChromeOptions();
+                options.addArguments("no-sandbox");
+                return options;
+            }
+            case EDGE -> {
+                // Edge is Chromium but needs its own class: arguments travel
+                // under ms:edgeOptions, which ChromeOptions never writes.
+                EdgeOptions options = new EdgeOptions();
                 options.addArguments("no-sandbox");
                 return options;
             }
