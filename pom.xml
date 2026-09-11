@@ -11,13 +11,13 @@
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium.version>4.33.0</selenium.version>
+        <selenium.version>4.49.0</selenium.version>
         <junit.version>5.12.2</junit.version>
-        <hamcrest.version>2.2</hamcrest.version>
+        <hamcrest.version>3.0</hamcrest.version>
         <awaitility.version>4.3.0</awaitility.version>
-        <slf4j.version>2.0.16</slf4j.version>
+        <slf4j.version>2.0.17</slf4j.version>
         <!-- Maintained fork of the unmaintained BrowserMob proxy -->
-        <browserup.version>3.2.0</browserup.version>
+        <browserup.version>3.3.0</browserup.version>
         <!-- Build-time code quality tooling -->
         <spotless.version>2.44.5</spotless.version>
         <palantir.version>2.97.0</palantir.version>
@@ -62,17 +62,17 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>2.18.9</version>
+                <version>2.22.2</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.18.9</version>
+                <version>2.22.2</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.18.9</version>
+                <version>2.22</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -128,7 +128,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.15.0</version>
+                <version>3.16.0</version>
                 <configuration>
                     <compilerArgs>
                         <arg>-XDcompilePolicy=simple</arg>
