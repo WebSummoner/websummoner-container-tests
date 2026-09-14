@@ -2,12 +2,12 @@ package com.websummoner.websummoner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.websummoner.websummoner.misc.Page;
 import com.websummoner.websummoner.misc.TestBase;
-import java.util.function.Function;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.chromium.ChromiumOptions;
 
 /**
  * Guards audio output in the image. An AudioContext only reaches "running" with
@@ -16,16 +16,14 @@ import org.openqa.selenium.chromium.ChromiumOptions;
  */
 public class TestAudioPlayback extends TestBase {
 
-    @Override
-    protected Function<MutableCapabilities, MutableCapabilities> getCapabilitiesProcessor() {
-        // A fresh session has no user gesture, so autoplay would block the context.
-        return capabilities -> {
-            // ChromiumOptions so Edge gets it too, not just ChromeOptions.
-            if (capabilities instanceof ChromiumOptions<?> chromium) {
-                chromium.addArguments("--autoplay-policy=no-user-gesture-required");
-            }
-            return capabilities;
-        };
+    /**
+     * Brave ignores --autoplay-policy, so unblock audio the way a user does.
+     * The click also proves the device works rather than the flag.
+     */
+    @BeforeEach
+    public void allowAudioWithAUserGesture() {
+        openPage(Page.FIRST);
+        getDriver().findElement(By.tagName("h1")).click();
     }
 
     @Test
