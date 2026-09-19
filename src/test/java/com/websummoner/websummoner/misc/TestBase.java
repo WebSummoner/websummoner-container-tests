@@ -5,6 +5,10 @@ import java.io.StringWriter;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.function.Function;
@@ -65,6 +69,27 @@ public abstract class TestBase {
 
     public <T> void assertThat(String reason, T actual, org.hamcrest.Matcher<? super T> matcher) {
         MatcherAssert.assertThat(reason, actual, matcher);
+    }
+
+    /** The hub root, for the endpoints that sit outside /wd/hub. */
+    protected String hubUrl() {
+        return TestProperties.getConnectionUrl().replaceAll("/wd/hub/?$", "");
+    }
+
+    protected String sessionId() {
+        return ((org.openqa.selenium.remote.RemoteWebDriver) getDriver())
+                .getSessionId()
+                .toString();
+    }
+
+    protected HttpResponse<String> http(String method, String path, String body) throws Exception {
+        HttpRequest.BodyPublisher payload =
+                body == null ? HttpRequest.BodyPublishers.noBody() : HttpRequest.BodyPublishers.ofString(body);
+        HttpRequest request = HttpRequest.newBuilder(URI.create(hubUrl() + path))
+                .method(method, payload)
+                .timeout(Duration.ofSeconds(30))
+                .build();
+        return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     protected Function<MutableCapabilities, MutableCapabilities> getCapabilitiesProcessor() {
