@@ -2,6 +2,7 @@ package com.websummoner.websummoner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import com.websummoner.websummoner.misc.Page;
 import com.websummoner.websummoner.misc.TestBase;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 @Tag("har")
 @DisplayName("HAR capture")
@@ -33,6 +35,10 @@ public class TestHarCapture extends TestBase {
 
     @BeforeEach
     public void before() throws Exception {
+        // HAR is built from CDP, so it exists exactly where se:cdp does.
+        assumeTrue(
+                ((RemoteWebDriver) getDriver()).getCapabilities().getCapability("se:cdp") != null,
+                browserName() + " has no CDP endpoint");
         openPage(Page.FIRST);
         waitUntilElementIsPresent(By.cssSelector("#test-id"));
     }
