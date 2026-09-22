@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.function.Function;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -22,9 +23,21 @@ class WebDriverExtensionTest {
 
     private final WebDriverExtension extension = new WebDriverExtension(Function.identity());
 
+    // Browser tests share this JVM and read the same property.
+    private String browserName;
+
+    @BeforeEach
+    void saveBrowserName() {
+        browserName = System.getProperty("grid.browser.name");
+    }
+
     @AfterEach
-    void clearBrowserName() {
-        System.clearProperty("grid.browser.name");
+    void restoreBrowserName() {
+        if (browserName == null) {
+            System.clearProperty("grid.browser.name");
+        } else {
+            System.setProperty("grid.browser.name", browserName);
+        }
     }
 
     @Test
