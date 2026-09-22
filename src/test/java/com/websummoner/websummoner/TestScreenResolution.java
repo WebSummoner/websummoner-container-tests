@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.*;
 
 import com.websummoner.websummoner.misc.Page;
 import com.websummoner.websummoner.misc.TestBase;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +27,12 @@ public class TestScreenResolution extends TestBase {
     @Override
     protected Function<MutableCapabilities, MutableCapabilities> getCapabilitiesProcessor() {
         return caps -> {
-            caps.setCapability("websummoner:options", Map.of("screenResolution", WIDTH + "x" + HEIGHT + "x24"));
+            Map<String, Object> options = new HashMap<>(Map.of("screenResolution", WIDTH + "x" + HEIGHT + "x24"));
+            if ("brave".equals(browserName())) {
+                // Brave Shields report a false screen size to pages.
+                options.put("env", List.of("CH_POLICY_BraveShieldsDisabledForUrls=[\"*\"]"));
+            }
+            caps.setCapability("websummoner:options", options);
             return caps;
         };
     }
